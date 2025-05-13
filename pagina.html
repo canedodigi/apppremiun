@@ -552,4 +552,144 @@
 
 <div id="player">
   <button id="closeBtn" onclick="cerrarPartido()">❌ Cerrar Partido</button>
-  <iframe id="iframePlayer
+  <iframe id="iframePlayer" allowfullscreen></iframe>
+</div>
+
+<footer>&copy; 2025 FUCHIVOL. Todos los derechos reservados.</footer>
+
+<script>
+  function verPartido(url) {
+    window.open(url, '_blank'); // Abre anuncios afuera
+
+    setTimeout(() => {
+      const iframe = document.getElementById('iframePlayer');
+      const player = document.getElementById('player');
+      iframe.src = url;
+      player.style.display = 'block';
+
+      // Pantalla completa
+      if (player.requestFullscreen) {
+        player.requestFullscreen();
+      } else if (player.webkitRequestFullscreen) {
+        player.webkitRequestFullscreen();
+      } else if (player.msRequestFullscreen) {
+        player.msRequestFullscreen();
+      }
+    }, 3000);
+  }
+
+  function cerrarPartido() {
+    const iframe = document.getElementById('iframePlayer');
+    const player = document.getElementById('player');
+    iframe.src = '';
+    player.style.display = 'none';
+    
+    // Salir de pantalla completa si está activa
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+
+  // Filtrar partidos por categoría
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const filter = button.getAttribute('data-filter');
+      
+      // Actualizar estados de botones
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      
+      // Filtrar partidos
+      const matches = document.querySelectorAll('.match');
+      matches.forEach(match => {
+        if (filter === 'todos') {
+          match.style.display = 'block';
+        } else {
+          const category = match.getAttribute('data-category');
+          if (category === filter) {
+            match.style.display = 'block';
+          } else {
+            match.style.display = 'none';
+          }
+        }
+      });
+    });
+  });
+
+  // Función de búsqueda
+  const searchInput = document.getElementById('search-input');
+  searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const matches = document.querySelectorAll('.match');
+    
+    matches.forEach(match => {
+      const title = match.querySelector('h3').textContent.toLowerCase();
+      if (title.includes(searchTerm)) {
+        match.style.display = 'block';
+      } else {
+        match.style.display = 'none';
+      }
+    });
+  });
+  
+  // Sugerencia si el celular está en vertical
+  window.addEventListener("orientationchange", function () {
+    if (window.orientation === 0 || window.orientation === 180) {
+      alert("🔄 Gira tu celular para ver el partido en pantalla completa horizontal 📱➡️");
+    }
+  });
+  
+  // Ordenar partidos por hora
+  function sortMatchesByTime() {
+    const container = document.getElementById('partidos-container');
+    const categories = container.querySelectorAll('.category');
+    
+    categories.forEach(category => {
+      const categoryName = category.querySelector('h2').textContent;
+      const categoryMatches = document.querySelectorAll(`.match[data-category="${categoryName}"]`);
+      const matchesArray = Array.from(categoryMatches);
+      
+      // Ordenar por hora
+      matchesArray.sort((a, b) => {
+        const timeA = a.querySelector('.time').textContent.split(':').slice(1).join(':').trim();
+        const timeB = b.querySelector('.time').textContent.split(':').slice(1).join(':').trim();
+        return timeA.localeCompare(timeB);
+      });
+      
+      // Reordenar en el DOM
+      matchesArray.forEach(match => {
+        category.after(match);
+      });
+    });
+  }
+  
+  // Marcar partidos próximos
+  function highlightUpcomingMatches() {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    
+    const matches = document.querySelectorAll('.match');
+    matches.forEach(match => {
+      const timeText = match.querySelector('.time').textContent;
+      const [hour, minute] = timeText.split(':').slice(1).join(':').trim().split(':').map(Number);
+      
+      // Comparar con tiempo actual y destacar próximos partidos
+      const timeDiff = (hour - currentHour) * 60 + (minute - currentMinute);
+      if (timeDiff >= 0 && timeDiff <= 30) {
+        match.style.border = '2px solid #22c55e';
+        match.style.boxShadow = '0 0 10px rgba(34, 197, 94, 0.5)';
+      }
+    });
+  }
+  
+  // Llamar a las funciones al cargar la página
+  window.addEventListener('load', () => {
+    highlightUpcomingMatches();
+  });
+</script>
