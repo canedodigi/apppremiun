@@ -158,7 +158,7 @@
 
 <script>
   function verPartido(url) {
-    window.open(url, '_blank'); // Anuncios afuera
+    window.open(url, '_blank'); // Abre anuncios afuera
 
     setTimeout(() => {
       const iframe = document.getElementById('iframePlayer');
@@ -166,7 +166,7 @@
       iframe.src = url;
       player.style.display = 'block';
 
-      // Pantalla completa automática
+      // Pantalla completa
       if (player.requestFullscreen) {
         player.requestFullscreen();
       } else if (player.webkitRequestFullscreen) {
@@ -183,6 +183,13 @@
     iframe.src = '';
     player.style.display = 'none';
   }
+
+  // Sugerencia si el celular está en vertical
+  window.addEventListener("orientationchange", function () {
+    if (window.orientation === 0 || window.orientation === 180) {
+      alert("🔄 Gira tu celular para ver el partido en pantalla completa horizontal 📱➡️");
+    }
+  });
 </script>
 
 </body>
