@@ -66,7 +66,6 @@
       border-radius: 10px;
       padding: 20px;
       margin-bottom: 20px;
-      cursor: pointer;
       transition: transform 0.3s ease;
     }
     .match:hover {
@@ -152,21 +151,16 @@
   <script>
     const partidos = {
       "LaLiga": [
-        { titulo: "Real Valladolid vs Girona", hora: "19:00", url: "https://streamtp4.com/global1.php?stream=disney1" },
-        { titulo: "Real Sociedad vs Celta", hora: "20:00", url: "https://streamtp4.com/global1.php?stream=dsports" }
+        { titulo: "Real Valladolid vs Girona", hora: "19:00", canales: ["https://streamtp4.com/global1.php?stream=disney1", "https://television.libre.futbol/tv3/agenda.html", "https://librefutboltv.com/en-vivo/disney-channel/"] },
+        { titulo: "Real Sociedad vs Celta", hora: "20:00", canales: ["https://streamtp4.com/global1.php?stream=dsports", "https://television.libre.futbol/tv2/agenda.html", "https://librefutboltv.com/en-vivo/dsports/"] }
       ],
-      "Eredivisie": [
-        { titulo: "Telstar vs ADO Den Haag", hora: "18:40", url: "https://streamtp4.com/global1.php?stream=espn_nl1" }
-      ],
+      "Eredivisie": [],
       "Premier League": [
-        { titulo: "Arsenal vs Chelsea", hora: "21:00", url: "https://streamtp4.com/global1.php?stream=premier1" },
-        { titulo: "Manchester City vs Liverpool", hora: "23:30", url: "https://streamtp4.com/global1.php?stream=premier2" }
+        { titulo: "Arsenal vs Chelsea", hora: "21:00", canales: ["https://streamtp4.com/global1.php?stream=premier1", "https://librefutboltv.com/en-vivo/premier-league/", "https://television.libre.futbol/tv6/agenda.html"] }
       ],
-      "Serie A": [
-        { titulo: "Juventus vs Milan", hora: "18:00", url: "https://streamtp4.com/global1.php?stream=seriea1" }
-      ],
+      "Serie A": [],
       "Bundesliga": [
-        { titulo: "Bayern Múnich vs Dortmund", hora: "20:45", url: "https://streamtp4.com/global1.php?stream=bundes1" }
+        { titulo: "Bayern Múnich vs Dortmund", hora: "20:45", canales: ["https://streamtp4.com/global1.php?stream=bundes1", "https://librefutboltv.com/en-vivo/bundesliga/", "https://television.libre.futbol/tv5/agenda.html"] }
       ]
     };
 
@@ -183,11 +177,21 @@
     function mostrarPartidos(liga) {
       const contenedor = document.getElementById('partidos-container');
       contenedor.innerHTML = '';
+      if (partidos[liga].length === 0) {
+        contenedor.innerHTML = `<div class="match"><h3>Hoy no hay partidos disponibles en ${liga}</h3></div>`;
+        return;
+      }
       partidos[liga].forEach(partido => {
         const div = document.createElement('div');
         div.className = 'match';
-        div.onclick = () => verPartido(partido.url);
-        div.innerHTML = `<h3>${partido.titulo}</h3><p><strong>Hora:</strong> ${partido.hora}</p><button class="btn">Ver Partido</button>`;
+        div.innerHTML = `<h3>${partido.titulo}</h3><p><strong>Hora:</strong> ${partido.hora}</p>`;
+        partido.canales.forEach((canal, index) => {
+          const boton = document.createElement('button');
+          boton.className = 'btn';
+          boton.textContent = `Ver Canal ${index + 1}`;
+          boton.onclick = () => verPartido(canal);
+          div.appendChild(boton);
+        });
         contenedor.appendChild(div);
       });
     }
