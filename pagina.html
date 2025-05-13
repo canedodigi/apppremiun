@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FUCHIVOL - Partidos en Vivo</title>
   <style>
     body {
@@ -38,6 +38,23 @@
     .menu a:hover {
       background-color: #334155;
     }
+    .ligas-btns {
+      text-align: center;
+      margin: 20px;
+    }
+    .ligas-btns button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      background-color: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+    .ligas-btns button:hover {
+      background-color: #1d4ed8;
+    }
     .container {
       padding: 30px 20px;
       max-width: 1200px;
@@ -59,44 +76,24 @@
       margin: 0;
       color: #22d3ee;
     }
-    .canales {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 15px;
-    }
-    .canal-btn {
-      padding: 8px 15px;
-      background-color: #3b82f6;
+    .btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #22c55e;
       color: white;
       border: none;
       border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 14px;
     }
-    .canal-btn:hover {
-      background-color: #2563eb;
-    }
-    .category {
-      margin-top: 40px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #475569;
-      padding-bottom: 10px;
-    }
-    .category h2 {
-      color: #38bdf8;
-      margin-bottom: 5px;
-    }
-    .time {
-      color: #cbd5e1;
-      font-size: 15px;
-      margin-top: 10px;
+    .btn:hover {
+      background-color: #16a34a;
     }
     #player {
       display: none;
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       z-index: 9999;
@@ -131,565 +128,97 @@
       color: #cbd5e1;
       border-top: 1px solid #334155;
     }
-    .filter-container {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    .filter-btn {
-      padding: 8px 15px;
-      background-color: #475569;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .filter-btn.active {
-      background-color: #22c55e;
-    }
-    .search-container {
-      margin-bottom: 20px;
-    }
-    #search-input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #475569;
-      background-color: #1e293b;
-      color: white;
-      font-size: 16px;
-    }
   </style>
 </head>
 <body>
+  <header>
+    <div class="logo">FUCHIVOL - Partidos en Vivo</div>
+    <nav class="menu">
+      <a href="resumenes.html">Resumenes de Partidos</a>
+      <a href="index.html">Cerrar Sesión</a>
+    </nav>
+  </header>
 
-<header>
-  <div class="logo">FUCHIVOL - Partidos en Vivo</div>
-  <nav class="menu">
-    <a href="resumenes.html">Resumenes de Partidos</a>
-    <a href="index.html">Cerrar Sesión</a>
-  </nav>
-</header>
+  <div class="ligas-btns" id="ligas"></div>
+  <div class="container" id="partidos-container"></div>
 
-<div class="container">
-  <div class="search-container">
-    <input type="text" id="search-input" placeholder="Buscar partidos...">
-  </div>
-  
-  <div class="filter-container">
-    <button class="filter-btn active" data-filter="todos">Todos</button>
-    <button class="filter-btn" data-filter="LaLiga">LaLiga</button>
-    <button class="filter-btn" data-filter="Eredivisie">Eredivisie</button>
-    <button class="filter-btn" data-filter="Championship">Championship</button>
-    <button class="filter-btn" data-filter="Copa Libertadores">Copa Libertadores</button>
-    <button class="filter-btn" data-filter="Copa Sudamericana">Copa Sudamericana</button>
-    <button class="filter-btn" data-filter="NBA">NBA</button>
-    <button class="filter-btn" data-filter="MLB">MLB</button>
-    <button class="filter-btn" data-filter="NHL">NHL</button>
+  <div id="player">
+    <button id="closeBtn" onclick="cerrarPartido()">❌ Cerrar Partido</button>
+    <iframe id="iframePlayer" allowfullscreen></iframe>
   </div>
 
-  <div id="partidos-container">
-    <!-- Partidos de Futbol Internacional -->
-    <div class="category">
-      <h2>Fútbol Internacional</h2>
-    </div>
-    
-    <!-- Eredivisie -->
-    <div class="match" data-category="Eredivisie">
-      <h3>Eredivisie: Telstar vs ADO Den Haag</h3>
-      <p class="time"><strong>Hora:</strong> 18:40</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn_nl1')">ESPN NL1</button>
-      </div>
-    </div>
+  <footer>&copy; 2025 FUCHIVOL. Todos los derechos reservados.</footer>
 
-    <!-- LaLiga -->
-    <div class="match" data-category="LaLiga">
-      <h3>LaLiga: Real Valladolid vs Girona</h3>
-      <p class="time"><strong>Hora:</strong> 19:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney1')">Disney 1</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn2')">ESPN 2</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=eleven1_pt')">Eleven 1 PT</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espndeportes')">ESPN Deportes</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espnplus4')">ESPN+ 4</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espnplus5')">ESPN+ 5</button>
-      </div>
-    </div>
+  <script>
+    const partidos = {
+      "LaLiga": [
+        { titulo: "Real Valladolid vs Girona", hora: "19:00", url: "https://streamtp4.com/global1.php?stream=disney1" },
+        { titulo: "Real Sociedad vs Celta", hora: "20:00", url: "https://streamtp4.com/global1.php?stream=dsports" }
+      ],
+      "Eredivisie": [
+        { titulo: "Telstar vs ADO Den Haag", hora: "18:40", url: "https://streamtp4.com/global1.php?stream=espn_nl1" }
+      ],
+      "Premier League": [
+        { titulo: "Arsenal vs Chelsea", hora: "21:00", url: "https://streamtp4.com/global1.php?stream=premier1" },
+        { titulo: "Manchester City vs Liverpool", hora: "23:30", url: "https://streamtp4.com/global1.php?stream=premier2" }
+      ],
+      "Serie A": [
+        { titulo: "Juventus vs Milan", hora: "18:00", url: "https://streamtp4.com/global1.php?stream=seriea1" }
+      ],
+      "Bundesliga": [
+        { titulo: "Bayern Múnich vs Dortmund", hora: "20:45", url: "https://streamtp4.com/global1.php?stream=bundes1" }
+      ]
+    };
 
-    <div class="match" data-category="LaLiga">
-      <h3>LaLiga: Real Sociedad vs Celta</h3>
-      <p class="time"><strong>Hora:</strong> 20:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=dsports')">DSports</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn3br')">ESPN 3 BR</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=canal5mx')">Canal 5 MX</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=eleven2_pt')">Eleven 2 PT</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=dazn_laliga')">DAZN LaLiga</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espnplus10')">ESPN+ 10</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espnplus9')">ESPN+ 9</button>
-      </div>
-    </div>
+    function cargarLigas() {
+      const ligasDiv = document.getElementById('ligas');
+      for (const liga in partidos) {
+        const btn = document.createElement('button');
+        btn.textContent = liga;
+        btn.onclick = () => mostrarPartidos(liga);
+        ligasDiv.appendChild(btn);
+      }
+    }
 
-    <!-- Championship -->
-    <div class="match" data-category="Championship">
-      <h3>Championship: Sunderland vs Coven City</h3>
-      <p class="time"><strong>Hora:</strong> 21:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney2')">Disney 2</button>
-      </div>
-    </div>
+    function mostrarPartidos(liga) {
+      const contenedor = document.getElementById('partidos-container');
+      contenedor.innerHTML = '';
+      partidos[liga].forEach(partido => {
+        const div = document.createElement('div');
+        div.className = 'match';
+        div.onclick = () => verPartido(partido.url);
+        div.innerHTML = `<h3>${partido.titulo}</h3><p><strong>Hora:</strong> ${partido.hora}</p><button class="btn">Ver Partido</button>`;
+        contenedor.appendChild(div);
+      });
+    }
 
-    <!-- Eredivisie -->
-    <div class="match" data-category="Eredivisie">
-      <h3>Eredivisie: De Graafschap vs Dordrecht</h3>
-      <p class="time"><strong>Hora:</strong> 21:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn_nl1')">ESPN NL1</button>
-      </div>
-    </div>
+    function verPartido(url) {
+      window.open(url, '_blank');
+      setTimeout(() => {
+        const iframe = document.getElementById('iframePlayer');
+        const player = document.getElementById('player');
+        iframe.src = url;
+        player.style.display = 'block';
+        if (player.requestFullscreen) player.requestFullscreen();
+        else if (player.webkitRequestFullscreen) player.webkitRequestFullscreen();
+        else if (player.msRequestFullscreen) player.msRequestFullscreen();
+      }, 3000);
+    }
 
-    <!-- LaLiga -->
-    <div class="match" data-category="LaLiga">
-      <h3>LaLiga: Sevilla vs Las Palmas</h3>
-      <p class="time"><strong>Hora:</strong> 21:30</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn2')">ESPN 2</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney3')">Disney 3</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espndeportes')">ESPN Deportes</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=eleven1_pt')">Eleven 1 PT</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espnplus4')">ESPN+ 4</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espnplus5')">ESPN+ 5</button>
-      </div>
-    </div>
-
-    <!-- Copa Sudamericana & Copa Libertadores -->
-    <div class="category">
-      <h2>Copas Sudamericanas</h2>
-    </div>
-    
-    <!-- Torneo de Reserva -->
-    <div class="match" data-category="Primera B de Colombia">
-      <h3>Torneo de Reserva: Talleres de Córdoba Res. vs Vélez Sársfield Res.</h3>
-      <p class="time"><strong>Hora:</strong> 00:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney4')">Disney 4</button>
-      </div>
-    </div>
-    
-    <!-- Primera B de Colombia -->
-    <div class="match" data-category="Primera B de Colombia">
-      <h3>Primera B de Colombia: Deportes Quindío vs Orsomarso</h3>
-      <p class="time"><strong>Hora:</strong> 00:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=winplus')">Win Plus</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=winplus2')">Win Plus 2</button>
-      </div>
-    </div>
-    
-    <!-- Copa Sudamericana -->
-    <div class="match" data-category="Copa Sudamericana">
-      <h3>Copa Sudamericana: Nacional Potosí vs Boston River</h3>
-      <p class="time"><strong>Hora:</strong> 00:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=dsports')">DSports</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="Copa Sudamericana">
-      <h3>Copa Sudamericana: Grêmio vs Godoy Cruz</h3>
-      <p class="time"><strong>Hora:</strong> 00:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney5')">Disney 5</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn1br')">ESPN 1 BR</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn2')">ESPN 2</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=sportv_1pt')">Sport TV 1 PT</button>
-      </div>
-    </div>
-    
-    <!-- Copa Libertadores -->
-    <div class="match" data-category="Copa Libertadores">
-      <h3>Copa Libertadores: Deportivo Táchira vs Central Córdoba SdE</h3>
-      <p class="time"><strong>Hora:</strong> 00:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney6')">Disney 6</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=fox1ar')">Fox 1 AR</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn')">ESPN</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn2mx')">ESPN 2 MX</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="Copa Libertadores">
-      <h3>Copa Libertadores: Sporting Cristal vs Cerro Porteño</h3>
-      <p class="time"><strong>Hora:</strong> 02:30</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=fox3ar')">Fox 3 AR</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney12')">Disney 12</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn7')">ESPN 7</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="Copa Libertadores">
-      <h3>Copa Libertadores: Fortaleza vs Atlético Bucaramanga</h3>
-      <p class="time"><strong>Hora:</strong> 02:30</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney11')">Disney 11</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=fox1ar')">Fox 1 AR</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn')">ESPN</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn1br')">ESPN 1 BR</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=sportv_1pt')">Sport TV 1 PT</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="Copa Libertadores">
-      <h3>Copa Libertadores: Universidad Chile vs Carabobo</h3>
-      <p class="time"><strong>Hora:</strong> 02:30</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney10')">Disney 10</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=fox2ar')">Fox 2 AR</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn2')">ESPN 2</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn2mx')">ESPN 2 MX</button>
-      </div>
-    </div>
-    
-    <!-- Copa Sudamericana -->
-    <div class="match" data-category="Copa Sudamericana">
-      <h3>Copa Sudamericana: Academia Puerto Cabello vs Melgar</h3>
-      <p class="time"><strong>Hora:</strong> 02:30</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney9')">Disney 9</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn3br')">ESPN 3 BR</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn3')">ESPN 3</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="Copa Sudamericana">
-      <h3>Copa Sudamericana: Lanús vs Vasco da Gama</h3>
-      <p class="time"><strong>Hora:</strong> 02:30</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=sportv_2pt')">Sport TV 2 PT</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=dsports')">DSports</button>
-      </div>
-    </div>
-    
-    <!-- Primera A -->
-    <div class="match" data-category="Primera A">
-      <h3>Primera A: Deportivo Pereira vs Deportivo Pasto</h3>
-      <p class="time"><strong>Hora:</strong> 02:30</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=winplus')">Win Plus</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=winplus2')">Win Plus 2</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="Copa Sudamericana">
-      <h3>Copa Sudamericana: Unión Santa Fe vs Mushuc Runa</h3>
-      <p class="time"><strong>Hora:</strong> 02:30</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney7')">Disney 7</button>
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn4br')">ESPN 4 BR</button>
-      </div>
-    </div>
-    
-    <!-- Deportes de USA -->
-    <div class="category">
-      <h2>Deportes USA</h2>
-    </div>
-    
-    <!-- NBA -->
-    <div class="match" data-category="NBA">
-      <h3>NBA: Cleveland Cavaliers vs Indiana Pacers</h3>
-      <p class="time"><strong>Hora:</strong> 01:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=nba1')">NBA 1</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="NBA">
-      <h3>NBA: Oklahoma City Thunder vs Denver Nuggets</h3>
-      <p class="time"><strong>Hora:</strong> 03:30</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=nba2')">NBA 2</button>
-      </div>
-    </div>
-    
-    <!-- NHL -->
-    <div class="match" data-category="NHL">
-      <h3>NHL: Dallas Stars vs Winnipeg Jets</h3>
-      <p class="time"><strong>Hora:</strong> 02:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney13')">Disney 13</button>
-      </div>
-    </div>
-    
-    <!-- MLB -->
-    <div class="category">
-      <h2>MLB - Béisbol</h2>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Cleveland Guardians vs Milwaukee Brewers</h3>
-      <p class="time"><strong>Hora:</strong> 00:10</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb1')">MLB 1</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Baltimore Orioles vs Minnesota Twins</h3>
-      <p class="time"><strong>Hora:</strong> 00:30</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb2')">MLB 2</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Cincinnati Reds vs Chicago White Sox</h3>
-      <p class="time"><strong>Hora:</strong> 00:40</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb3')">MLB 3</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Detroit Tigers vs Boston Red Sox</h3>
-      <p class="time"><strong>Hora:</strong> 00:40</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb5')">MLB 5</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Philadelphia Phillies vs St. Louis Cardinals</h3>
-      <p class="time"><strong>Hora:</strong> 00:40</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb4')">MLB 4</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Toronto Blue Jays vs Tampa Bay Rays</h3>
-      <p class="time"><strong>Hora:</strong> 01:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb6')">MLB 6</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: New York Mets vs Pittsburgh Pirates</h3>
-      <p class="time"><strong>Hora:</strong> 01:10</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb7')">MLB 7</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Atlanta Braves vs Washington Nationals</h3>
-      <p class="time"><strong>Hora:</strong> 01:10</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb8')">MLB 8</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Chicago Cubs vs Miami Marlins</h3>
-      <p class="time"><strong>Hora:</strong> 01:40</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb9')">MLB 9</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Texas Rangers vs Colorado Rockies</h3>
-      <p class="time"><strong>Hora:</strong> 02:00</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb10')">MLB 10</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Houston Astros vs Kansas City Royals</h3>
-      <p class="time"><strong>Hora:</strong> 02:10</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb11')">MLB 11</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: San Diego Padres vs Los Angeles Angels</h3>
-      <p class="time"><strong>Hora:</strong> 03:40</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb12')">MLB 12</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Seattle Mariners vs New York Yankees</h3>
-      <p class="time"><strong>Hora:</strong> 03:40</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb13')">MLB 13</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: San Francisco Giants vs Arizona Diamondbacks</h3>
-      <p class="time"><strong>Hora:</strong> 03:40</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb14')">MLB 14</button>
-      </div>
-    </div>
-    
-    <div class="match" data-category="MLB">
-      <h3>MLB: Los Angeles Dodgers vs Athletics</h3>
-      <p class="time"><strong>Hora:</strong> 04:10</p>
-      <div class="canales">
-        <button class="canal-btn" onclick="verPartido('https://streamtp4.com/global1.php?stream=mlb15')">MLB 15</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="player">
-  <button id="closeBtn" onclick="cerrarPartido()">❌ Cerrar Partido</button>
-  <iframe id="iframePlayer" allowfullscreen></iframe>
-</div>
-
-<footer>&copy; 2025 FUCHIVOL. Todos los derechos reservados.</footer>
-
-<script>
-  function verPartido(url) {
-    window.open(url, '_blank'); // Abre anuncios afuera
-
-    setTimeout(() => {
+    function cerrarPartido() {
       const iframe = document.getElementById('iframePlayer');
       const player = document.getElementById('player');
-      iframe.src = url;
-      player.style.display = 'block';
-
-      // Pantalla completa
-      if (player.requestFullscreen) {
-        player.requestFullscreen();
-      } else if (player.webkitRequestFullscreen) {
-        player.webkitRequestFullscreen();
-      } else if (player.msRequestFullscreen) {
-        player.msRequestFullscreen();
-      }
-    }, 3000);
-  }
-
-  function cerrarPartido() {
-    const iframe = document.getElementById('iframePlayer');
-    const player = document.getElementById('player');
-    iframe.src = '';
-    player.style.display = 'none';
-    
-    // Salir de pantalla completa si está activa
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
+      iframe.src = '';
+      player.style.display = 'none';
     }
-  }
 
-  // Filtrar partidos por categoría
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const filter = button.getAttribute('data-filter');
-      
-      // Actualizar estados de botones
-      filterButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-      
-      // Filtrar partidos
-      const matches = document.querySelectorAll('.match');
-      matches.forEach(match => {
-        if (filter === 'todos') {
-          match.style.display = 'block';
-        } else {
-          const category = match.getAttribute('data-category');
-          if (category === filter) {
-            match.style.display = 'block';
-          } else {
-            match.style.display = 'none';
-          }
-        }
-      });
-    });
-  });
-
-  // Función de búsqueda
-  const searchInput = document.getElementById('search-input');
-  searchInput.addEventListener('input', () => {
-    const searchTerm = searchInput.value.toLowerCase();
-    const matches = document.querySelectorAll('.match');
-    
-    matches.forEach(match => {
-      const title = match.querySelector('h3').textContent.toLowerCase();
-      if (title.includes(searchTerm)) {
-        match.style.display = 'block';
-      } else {
-        match.style.display = 'none';
+    window.addEventListener("orientationchange", function () {
+      if (window.orientation === 0 || window.orientation === 180) {
+        alert("🔄 Gira tu celular para ver el partido en pantalla completa horizontal 📱➡️");
       }
     });
-  });
-  
-  // Sugerencia si el celular está en vertical
-  window.addEventListener("orientationchange", function () {
-    if (window.orientation === 0 || window.orientation === 180) {
-      alert("🔄 Gira tu celular para ver el partido en pantalla completa horizontal 📱➡️");
-    }
-  });
-  
-  // Ordenar partidos por hora
-  function sortMatchesByTime() {
-    const container = document.getElementById('partidos-container');
-    const categories = container.querySelectorAll('.category');
-    
-    categories.forEach(category => {
-      const categoryName = category.querySelector('h2').textContent;
-      const categoryMatches = document.querySelectorAll(`.match[data-category="${categoryName}"]`);
-      const matchesArray = Array.from(categoryMatches);
-      
-      // Ordenar por hora
-      matchesArray.sort((a, b) => {
-        const timeA = a.querySelector('.time').textContent.split(':').slice(1).join(':').trim();
-        const timeB = b.querySelector('.time').textContent.split(':').slice(1).join(':').trim();
-        return timeA.localeCompare(timeB);
-      });
-      
-      // Reordenar en el DOM
-      matchesArray.forEach(match => {
-        category.after(match);
-      });
-    });
-  }
-  
-  // Marcar partidos próximos
-  function highlightUpcomingMatches() {
-    const now = new Date();
-    const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
-    
-    const matches = document.querySelectorAll('.match');
-    matches.forEach(match => {
-      const timeText = match.querySelector('.time').textContent;
-      const [hour, minute] = timeText.split(':').slice(1).join(':').trim().split(':').map(Number);
-      
-      // Comparar con tiempo actual y destacar próximos partidos
-      const timeDiff = (hour - currentHour) * 60 + (minute - currentMinute);
-      if (timeDiff >= 0 && timeDiff <= 30) {
-        match.style.border = '2px solid #22c55e';
-        match.style.boxShadow = '0 0 10px rgba(34, 197, 94, 0.5)';
-      }
-    });
-  }
-  
-  // Llamar a las funciones al cargar la página
-  window.addEventListener('load', () => {
-    highlightUpcomingMatches();
-  });
-</script>
+
+    cargarLigas();
+  </script>
+</body>
+</html>
