@@ -192,7 +192,7 @@
             document.getElementById('fecha-actual').textContent = 'Fecha de actualización: ' + ahora.toLocaleDateString('es-ES', opciones);
         }
         
-        // Datos del único resumen con el enlace proporcionado
+        // Datos del único resumen con el enlace actualizado
         function obtenerResumenes() {
             return [
                 {
@@ -201,7 +201,7 @@
                     equipos: 'Real Madrid vs Barcelona',
                     resultado: '3-4',
                     fecha: '13 de mayo, 2025',
-                    videoId: 'loL3BHn5zEs',
+                    videoId: 'Vsb8lSYC9WE',
                     descripcion: 'Victoria épica del Barcelona por 4-3 en el Santiago Bernabéu con un partido lleno de goles y emoción hasta el último minuto.'
                 }
             ];
@@ -218,7 +218,7 @@
                 
                 card.innerHTML = `
                     <div class="video-container">
-                        <iframe src="https://www.youtube.com/watch?v=Vsb8lSYC9WE/${resumen.videoId}" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/${resumen.videoId}" allowfullscreen></iframe>
                     </div>
                     <div class="resumen-info">
                         <span class="liga-badge">${resumen.liga}</span>
