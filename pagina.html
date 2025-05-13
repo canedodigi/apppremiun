@@ -11,7 +11,6 @@
       background-color: #0f172a;
       color: #f8fafc;
     }
-
     header {
       background-color: #1e293b;
       padding: 20px;
@@ -20,76 +19,73 @@
       align-items: center;
       border-bottom: 2px solid #22d3ee;
     }
-
     .logo {
       font-size: 24px;
       font-weight: bold;
       color: #38bdf8;
-      letter-spacing: 1px;
     }
-
     .menu {
       display: flex;
       gap: 15px;
     }
-
     .menu a {
       color: #f8fafc;
       text-decoration: none;
       font-weight: bold;
       padding: 8px 12px;
       border-radius: 6px;
-      transition: background 0.3s ease;
     }
-
     .menu a:hover {
       background-color: #334155;
     }
-
     .container {
       padding: 30px 20px;
       max-width: 1200px;
       margin: auto;
     }
-
     .match {
       background-color: #1e293b;
       border: 1px solid #334155;
       border-radius: 10px;
       padding: 20px;
       margin-bottom: 20px;
+      cursor: pointer;
       transition: transform 0.3s ease;
     }
-
     .match:hover {
       transform: scale(1.02);
     }
-
     .match h3 {
       margin: 0;
       color: #22d3ee;
     }
-
-    .match p {
-      margin: 5px 0;
-    }
-
     .btn {
-      display: inline-block;
       margin-top: 10px;
       padding: 10px 20px;
       background-color: #22c55e;
       color: white;
-      text-decoration: none;
+      border: none;
       border-radius: 5px;
       font-weight: bold;
-      transition: background 0.3s ease;
+      cursor: pointer;
     }
-
     .btn:hover {
       background-color: #16a34a;
     }
-
+    #player {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      background-color: black;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
     footer {
       background-color: #1e293b;
       text-align: center;
@@ -102,41 +98,66 @@
 </head>
 <body>
 
-  <header>
-    <div class="logo">FUCHIVOL - Partidos en Vivo</div>
-    <nav class="menu">
-      <a href="resumenes.html">Resumenes de Partidos</a>
-      <a href="index.html">Cerrar Sesión</a>
-    </nav>
-  </header>
+<header>
+  <div class="logo">FUCHIVOL - Partidos en Vivo</div>
+  <nav class="menu">
+    <a href="resumenes.html">Resumenes de Partidos</a>
+    <a href="index.html">Cerrar Sesión</a>
+  </nav>
+</header>
 
-  <div class="container" id="partidos-container">
-    <p>Cargando partidos...</p>
-  </div>
+<div class="container" id="partidos-container">
+  
+    <div class="match" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn_nl1')">
+      <h3>Eredivisie: Telstar vs ADO Den Haag</h3>
+      <p><strong>Hora:</strong> 18:40</p>
+      <button class="btn">Ver Partido</button>
+    </div>
 
-  <footer>&copy; 2025 FUCHIVOL. Todos los derechos reservados.</footer>
+    <div class="match" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney1')">
+      <h3>LaLiga: Real Valladolid vs Girona</h3>
+      <p><strong>Hora:</strong> 19:00</p>
+      <button class="btn">Ver Partido</button>
+    </div>
 
-  <script>
-    fetch('partidos_completos.json')
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('partidos-container');
-        container.innerHTML = '';
-        data.forEach(partido => {
-          const div = document.createElement('div');
-          div.className = 'match';
-          div.innerHTML = `
-            <h3>${partido.titulo}</h3>
-            <p><strong>Hora:</strong> ${partido.hora}</p>
-            <a href="${partido.enlace}" class="btn" target="_blank">Ver Partido</a>
-          `;
-          container.appendChild(div);
-        });
-      })
-      .catch(error => {
-        document.getElementById('partidos-container').innerHTML = '<p>No se pudieron cargar los partidos.</p>';
-        console.error(error);
-      });
-  </script>
+    <div class="match" onclick="verPartido('https://streamtp4.com/global1.php?stream=dsports')">
+      <h3>LaLiga: Real Sociedad vs Celta</h3>
+      <p><strong>Hora:</strong> 20:00</p>
+      <button class="btn">Ver Partido</button>
+    </div>
+</div>
+
+<div id="player">
+  <iframe id="iframePlayer" allowfullscreen></iframe>
+</div>
+
+<footer>&copy; 2025 FUCHIVOL. Todos los derechos reservados.</footer>
+
+<script>
+  function verPartido(url) {
+    const iframe = document.getElementById('iframePlayer');
+    const player = document.getElementById('player');
+    iframe.src = url;
+    player.style.display = 'block';
+
+    // Pantalla completa
+    if (player.requestFullscreen) {
+      player.requestFullscreen();
+    } else if (player.webkitRequestFullscreen) {
+      player.webkitRequestFullscreen();
+    } else if (player.msRequestFullscreen) {
+      player.msRequestFullscreen();
+    }
+
+    // Intento de cierre de anuncios (solo si es pop-up real)
+    setTimeout(() => {
+      const allWindows = window.open('', '_blank');
+      if (allWindows) {
+        allWindows.close();
+      }
+    }, 3000);
+  }
+</script>
+
 </body>
 </html>
