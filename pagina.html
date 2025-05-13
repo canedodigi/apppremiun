@@ -72,6 +72,7 @@
     .btn:hover {
       background-color: #16a34a;
     }
+
     #player {
       display: none;
       position: fixed;
@@ -81,11 +82,31 @@
       z-index: 9999;
       background-color: black;
     }
-    iframe {
+
+    #iframePlayer {
       width: 100%;
       height: 100%;
       border: none;
     }
+
+    #closeBtn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: rgba(255, 0, 0, 0.8);
+      color: white;
+      border: none;
+      font-size: 18px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    #closeBtn:hover {
+      background-color: red;
+    }
+
     footer {
       background-color: #1e293b;
       text-align: center;
@@ -108,26 +129,28 @@
 
 <div class="container" id="partidos-container">
   
-    <div class="match" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn_nl1')">
-      <h3>Eredivisie: Telstar vs ADO Den Haag</h3>
-      <p><strong>Hora:</strong> 18:40</p>
-      <button class="btn">Ver Partido</button>
-    </div>
+  <div class="match" onclick="verPartido('https://streamtp4.com/global1.php?stream=espn_nl1')">
+    <h3>Eredivisie: Telstar vs ADO Den Haag</h3>
+    <p><strong>Hora:</strong> 18:40</p>
+    <button class="btn">Ver Partido</button>
+  </div>
 
-    <div class="match" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney1')">
-      <h3>LaLiga: Real Valladolid vs Girona</h3>
-      <p><strong>Hora:</strong> 19:00</p>
-      <button class="btn">Ver Partido</button>
-    </div>
+  <div class="match" onclick="verPartido('https://streamtp4.com/global1.php?stream=disney1')">
+    <h3>LaLiga: Real Valladolid vs Girona</h3>
+    <p><strong>Hora:</strong> 19:00</p>
+    <button class="btn">Ver Partido</button>
+  </div>
 
-    <div class="match" onclick="verPartido('https://streamtp4.com/global1.php?stream=dsports')">
-      <h3>LaLiga: Real Sociedad vs Celta</h3>
-      <p><strong>Hora:</strong> 20:00</p>
-      <button class="btn">Ver Partido</button>
-    </div>
+  <div class="match" onclick="verPartido('https://streamtp4.com/global1.php?stream=dsports')">
+    <h3>LaLiga: Real Sociedad vs Celta</h3>
+    <p><strong>Hora:</strong> 20:00</p>
+    <button class="btn">Ver Partido</button>
+  </div>
+
 </div>
 
 <div id="player">
+  <button id="closeBtn" onclick="cerrarPartido()">❌ Cerrar Partido</button>
   <iframe id="iframePlayer" allowfullscreen></iframe>
 </div>
 
@@ -135,27 +158,30 @@
 
 <script>
   function verPartido(url) {
-    const iframe = document.getElementById('iframePlayer');
-    const player = document.getElementById('player');
-    iframe.src = url;
-    player.style.display = 'block';
+    window.open(url, '_blank'); // Anuncios afuera
 
-    // Pantalla completa
-    if (player.requestFullscreen) {
-      player.requestFullscreen();
-    } else if (player.webkitRequestFullscreen) {
-      player.webkitRequestFullscreen();
-    } else if (player.msRequestFullscreen) {
-      player.msRequestFullscreen();
-    }
-
-    // Intento de cierre de anuncios (solo si es pop-up real)
     setTimeout(() => {
-      const allWindows = window.open('', '_blank');
-      if (allWindows) {
-        allWindows.close();
+      const iframe = document.getElementById('iframePlayer');
+      const player = document.getElementById('player');
+      iframe.src = url;
+      player.style.display = 'block';
+
+      // Pantalla completa automática
+      if (player.requestFullscreen) {
+        player.requestFullscreen();
+      } else if (player.webkitRequestFullscreen) {
+        player.webkitRequestFullscreen();
+      } else if (player.msRequestFullscreen) {
+        player.msRequestFullscreen();
       }
     }, 3000);
+  }
+
+  function cerrarPartido() {
+    const iframe = document.getElementById('iframePlayer');
+    const player = document.getElementById('player');
+    iframe.src = '';
+    player.style.display = 'none';
   }
 </script>
 
