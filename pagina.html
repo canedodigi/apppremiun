@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,12 +15,35 @@
     header {
       background-color: #1e293b;
       padding: 20px;
-      text-align: center;
-      color: #38bdf8;
-      font-size: 28px;
-      font-weight: bold;
-      letter-spacing: 1px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       border-bottom: 2px solid #22d3ee;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #38bdf8;
+      letter-spacing: 1px;
+    }
+
+    .menu {
+      display: flex;
+      gap: 15px;
+    }
+
+    .menu a {
+      color: #f8fafc;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+
+    .menu a:hover {
+      background-color: #334155;
     }
 
     .container {
@@ -79,7 +101,14 @@
   </style>
 </head>
 <body>
-  <header>FUCHIVOL - Partidos en Vivo</header>
+
+  <header>
+    <div class="logo">FUCHIVOL - Partidos en Vivo</div>
+    <nav class="menu">
+      <a href="resumenes.html">Resumenes de Partidos</a>
+      <a href="index.html">Cerrar Sesión</a>
+    </nav>
+  </header>
 
   <div class="container" id="partidos-container">
     <p>Cargando partidos...</p>
