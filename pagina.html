@@ -18,52 +18,37 @@
       --text-muted: #cbd5e1;
       --border: #475569;
     }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
+
     body {
-      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--dark);
       color: var(--text);
-      line-height: 1.6;
     }
-    
+
     header {
       background-color: var(--dark-light);
-      padding: 18px 30px;
+      padding: 20px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      border-bottom: 2px solid var(--primary);
     }
-    
+
     .logo {
       font-size: 28px;
-      font-weight: 800;
+      font-weight: bold;
       color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 1px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    
-    .logo i {
-      font-size: 24px;
-    }
-    
+
     .menu {
       display: flex;
       gap: 20px;
     }
-    
+
     .menu a {
       color: var(--text);
       text-decoration: none;
@@ -71,154 +56,127 @@
       padding: 10px 16px;
       border-radius: 8px;
       transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
-    
+
     .menu a:hover {
       background-color: var(--dark-lighter);
-      transform: translateY(-2px);
     }
-    
+
     .container {
       padding: 40px 20px;
       max-width: 1200px;
       margin: 0 auto;
     }
-    
+
     .page-title {
-      margin-bottom: 30px;
       text-align: center;
+      margin-bottom: 40px;
     }
-    
+
     .page-title h1 {
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 700;
       color: var(--primary);
-      margin-bottom: 10px;
     }
-    
+
     .page-title p {
-      color: var(--text-muted);
       font-size: 18px;
+      color: var(--text-muted);
     }
-    
+
     .channels-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 25px;
-      margin-top: 30px;
     }
-    
+
     .channel {
       background-color: var(--dark-light);
+      border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     }
-    
+
     .channel:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
     }
-    
+
     .channel-header {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       padding: 15px 20px;
-      border-radius: 12px 12px 0 0;
     }
-    
-    .channel h3 {
+
+    .channel-header h3 {
       margin: 0;
-      color: white;
-      font-size: 22px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      color: #fff;
+      font-size: 20px;
     }
-    
+
     .channel-content {
       padding: 20px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
     }
-    
-    .channel p {
-      margin: 0 0 20px;
+
+    .channel-content p {
       color: var(--text-muted);
-      font-size: 16px;
-      flex-grow: 1;
+      font-size: 15px;
+      margin-bottom: 10px;
     }
-    
+
     .btn {
-      padding: 12px 25px;
-      background: linear-gradient(to right, var(--secondary), var(--secondary-dark));
-      color: white;
+      background-color: var(--secondary);
       border: none;
+      color: white;
+      padding: 10px 15px;
+      margin: 5px 5px 0 0;
       border-radius: 8px;
-      font-weight: 600;
-      font-size: 16px;
+      font-size: 14px;
+      font-weight: bold;
       cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      transition: background 0.3s ease;
     }
-    
+
     .btn:hover {
-      background: linear-gradient(to right, var(--secondary-dark), var(--secondary));
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+      background-color: var(--secondary-dark);
     }
-    
+
     #player {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 9999;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
       background-color: black;
+      z-index: 9999;
     }
-    
+
     #iframePlayer {
       width: 100%;
       height: 100%;
       border: none;
     }
-    
+
     #closeBtn {
       position: absolute;
       top: 20px;
       right: 20px;
-      background: linear-gradient(to right, #ef4444, #dc2626);
+      background-color: #ef4444;
       color: white;
       border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
       font-size: 16px;
-      padding: 12px 20px;
-      border-radius: 8px;
+      font-weight: bold;
       cursor: pointer;
       z-index: 10000;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-      transition: all 0.3s ease;
     }
-    
+
     #closeBtn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+      background-color: #dc2626;
     }
-    
+
     footer {
       background-color: var(--dark-light);
       text-align: center;
@@ -226,63 +184,6 @@
       font-size: 16px;
       color: var(--text-muted);
       border-top: 1px solid var(--border);
-    }
-    
-    .stats {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .stat-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 5px;
-    }
-    
-    .stat-label {
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-    
-    .footer-links {
-      margin: 20px 0;
-    }
-    
-    .footer-links a {
-      color: var(--primary);
-      text-decoration: none;
-      margin: 0 15px;
-      transition: color 0.3s ease;
-    }
-    
-    .footer-links a:hover {
-      color: var(--primary-dark);
-      text-decoration: underline;
-    }
-    
-    @media (max-width: 768px) {
-      .channels-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .logo {
-        font-size: 22px;
-      }
-      
-      .menu a {
-        padding: 8px 12px;
-        font-size: 14px;
-      }
     }
   </style>
 </head>
@@ -302,7 +203,7 @@
       <h1>Canales Deportivos en Vivo</h1>
       <p>Disfruta de los mejores eventos deportivos en streaming HD</p>
     </div>
-    
+
     <div class="channels-grid" id="canales"></div>
   </div>
 
@@ -312,94 +213,40 @@
   </div>
 
   <footer>
-    <div class="stats">
-      <div class="stat-item">
-        <div class="stat-value">7</div>
-        <div class="stat-label">Canales Disponibles</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">HD</div>
-        <div class="stat-label">Alta Calidad</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">24/7</div>
-        <div class="stat-label">Disponibilidad</div>
-      </div>
-    </div>
-    
-    <div class="footer-links">
-      <a href="#">Términos y Condiciones</a>
-      <a href="#">Política de Privacidad</a>
-      <a href="#">Contacto</a>
-    </div>
-    
     <p>&copy; 2025 FUCHIVOL. Todos los derechos reservados.</p>
   </footer>
 
   <script>
-    const canales = [
-      {
-        titulo: "TyC Sports",
-        descripcion: "MLB: San Diego Padres vs Los Angeles Angels",
-        url: "https://streamtp4.com/global1.php?stream=mlb12",
-        icono: "fas fa-baseball-ball"
-      },
-      {
-        titulo: "DirecTV Sports",
-        descripcion: "MLB: Seattle Mariners vs New York Yankees",
-        url: "https://streamtp4.com/global1.php?stream=mlb13",
-        icono: "fas fa-baseball-ball"
-      },
-      {
-        titulo: "TNT Sports",
-        descripcion: "MLB: San Francisco Giants vs Arizona Diamondbacks",
-        url: "https://streamtp4.com/global1.php?stream=mlb14",
-        icono: "fas fa-baseball-ball"
-      },
-      {
-        titulo: "TV Pública",
-        descripcion: "MLB: Los Angeles Dodgers vs Athletics",
-        url: "https://streamtp4.com/global1.php?stream=mlb15",
-        icono: "fas fa-baseball-ball"
-      },
-      {
-        titulo: "Fox Sports",
-        descripcion: "MLB: Los Angeles Dodgers vs Athletics",
-        url: "https://streamtp4.com/global1.php?stream=mlb15",
-        icono: "fas fa-baseball-ball"
-      },
-      {
-        titulo: "ESPN Premium",
-        descripcion: "MLB: San Diego Padres vs Los Angeles Angels",
-        url: "https://streamtp4.com/global1.php?stream=mlb12",
-        icono: "fas fa-baseball-ball"
-      },
-      {
-        titulo: "TUDN",
-        descripcion: "MLB: Seattle Mariners vs New York Yankees",
-        url: "https://streamtp4.com/global1.php?stream=mlb13",
-        icono: "fas fa-baseball-ball"
-      }
+    const partidosRaw = [
+      { titulo: "LaLiga: Alavés vs Valencia", hora: "19:00", enlaces: ["https://streamtp4.com/global1.php?stream=dsports2", "https://streamtp4.com/global1.php?stream=espnplus4"] },
+      { titulo: "LaLiga: Villarreal vs Leganés", hora: "19:00", enlaces: ["https://streamtp4.com/global1.php?stream=dsportsplus", "https://streamtp4.com/global1.php?stream=espnplus10"] },
+      { titulo: "Copa Italiana: Milan vs Bologna", hora: "20:00", enlaces: ["https://streamtp4.com/global1.php?stream=dsports", "https://streamtp4.com/global1.php?stream=winplus"] },
+      { titulo: "Premier League: Aberdeen vs Celtic", hora: "21:00", enlaces: ["https://streamtp4.com/global1.php?stream=sportv_3pt", "https://streamtp4.com/global1.php?stream=fox2ar"] },
+      { titulo: "LaLiga: Real Madrid vs Mallorca", hora: "21:30", enlaces: ["https://streamtp4.com/global1.php?stream=espn", "https://streamtp4.com/global1.php?stream=espnplus5"] }
     ];
 
     const contenedor = document.getElementById('canales');
-    canales.forEach(canal => {
+    partidosRaw.forEach(p => {
       const div = document.createElement('div');
       div.className = 'channel';
+      let botones = '';
+      p.enlaces.forEach((url, i) => {
+        botones += `<button class="btn" onclick="verCanal('${url}')">Canal ${i + 1}</button>`;
+      });
       div.innerHTML = `
         <div class="channel-header">
-          <h3><i class="${canal.icono}"></i> ${canal.titulo}</h3>
+          <h3><i class="fas fa-play-circle"></i> ${p.titulo}</h3>
         </div>
         <div class="channel-content">
-          <p>${canal.descripcion}</p>
-          <button class="btn" onclick="verCanal('${canal.url}')"><i class="fas fa-play-circle"></i> Ver Canal</button>
+          <p><strong>Hora:</strong> ${p.hora}</p>
+          ${botones}
         </div>
       `;
       contenedor.appendChild(div);
     });
 
     function verCanal(url) {
-      window.open(url, '_blank'); // anuncios afuera
+      window.open('https://google.com', '_blank'); // se abre anuncio
       setTimeout(() => {
         const iframe = document.getElementById('iframePlayer');
         const player = document.getElementById('player');
@@ -408,7 +255,7 @@
         if (player.requestFullscreen) player.requestFullscreen();
         else if (player.webkitRequestFullscreen) player.webkitRequestFullscreen();
         else if (player.msRequestFullscreen) player.msRequestFullscreen();
-      }, 3000);
+      }, 1000);
     }
 
     function cerrarPartido() {
