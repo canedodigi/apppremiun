@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FUCHIVOL - Canales en Vivo</title>
+  <title>FUCHIVOL - Fútbol en Vivo</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary: #0ea5e9;
-      --primary-dark: #0284c7;
-      --secondary: #10b981;
-      --secondary-dark: #059669;
-      --dark: #0f172a;
+      --primary: #00b140;           /* Verde futbolístico */
+      --primary-dark: #008f33;
+      --secondary: #1e3a8a;         /* Azul oscuro */
+      --secondary-dark: #162a63;
+      --accent: #f59e0b;            /* Amarillo/oro para acentos */
+      --dark: #0f172a;              /* Fondo oscuro */
       --dark-light: #1e293b;
       --dark-lighter: #334155;
       --text: #f8fafc;
@@ -19,127 +20,247 @@
       --border: #475569;
     }
 
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--dark);
       color: var(--text);
+      line-height: 1.6;
     }
 
     header {
       background-color: var(--dark-light);
-      padding: 20px 30px;
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid var(--primary);
+      border-bottom: 3px solid var(--primary);
     }
 
     .logo {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: bold;
       color: var(--primary);
       display: flex;
       align-items: center;
       gap: 10px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .logo i {
+      color: var(--accent);
     }
 
     .menu {
       display: flex;
-      gap: 20px;
+      gap: 10px;
     }
 
     .menu a {
       color: var(--text);
       text-decoration: none;
       font-weight: 600;
-      padding: 10px 16px;
+      padding: 8px 12px;
       border-radius: 8px;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .menu a:hover {
-      background-color: var(--dark-lighter);
+      background-color: var(--primary);
+      color: white;
     }
 
     .container {
-      padding: 40px 20px;
+      padding: 20px 15px;
       max-width: 1200px;
       margin: 0 auto;
     }
 
     .page-title {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
+      padding: 20px 0;
+      position: relative;
+    }
+
+    .page-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      border-radius: 2px;
     }
 
     .page-title h1 {
-      font-size: 36px;
+      font-size: 32px;
       font-weight: 700;
       color: var(--primary);
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+      display: inline-block;
+    }
+
+    .page-title h1 i {
+      color: var(--accent);
+      margin-right: 10px;
     }
 
     .page-title p {
-      font-size: 18px;
+      font-size: 16px;
       color: var(--text-muted);
     }
 
     .channels-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
     }
 
     .channel {
       background-color: var(--dark-light);
-      border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
       transition: all 0.3s ease;
       box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.05);
     }
 
     .channel:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+      border-color: var(--primary);
     }
 
     .channel-header {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
       padding: 15px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .channel-header:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('/api/placeholder/300/100');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
     }
 
     .channel-header h3 {
       margin: 0;
       color: #fff;
-      font-size: 20px;
+      font-size: 18px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .channel-header h3 i {
+      color: var(--accent);
+    }
+
+    .stream-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background-color: rgba(239, 68, 68, 0.8);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .stream-badge i {
+      font-size: 10px;
     }
 
     .channel-content {
       padding: 20px;
     }
 
-    .channel-content p {
+    .channel-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
       color: var(--text-muted);
-      font-size: 15px;
-      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .channel-info > div {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 15px;
+    }
+
+    .channel-logo {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
     }
 
     .btn {
-      background-color: var(--secondary);
+      background-color: var(--primary);
       border: none;
       color: white;
-      padding: 10px 15px;
-      margin: 5px 5px 0 0;
-      border-radius: 8px;
+      padding: 8px 14px;
+      border-radius: 6px;
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 100px;
+      justify-content: center;
     }
 
     .btn:hover {
-      background-color: var(--secondary-dark);
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     #player {
@@ -171,6 +292,9 @@
       font-weight: bold;
       cursor: pointer;
       z-index: 10000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     #closeBtn:hover {
@@ -180,66 +304,324 @@
     footer {
       background-color: var(--dark-light);
       text-align: center;
-      padding: 30px;
-      font-size: 16px;
+      padding: 25px 20px;
+      font-size: 14px;
       color: var(--text-muted);
       border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 10px 0;
+    }
+
+    .social-icons a {
+      color: var(--text-muted);
+      font-size: 18px;
+      transition: all 0.2s ease;
+    }
+
+    .social-icons a:hover {
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    /* Banner superior */
+    .top-banner {
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+      padding: 15px;
+      text-align: center;
+      position: relative;
+    }
+
+    .top-banner:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('/api/placeholder/1200/100');
+      background-size: cover;
+      opacity: 0.1;
+    }
+
+    .top-banner p {
+      margin: 0;
+      color: white;
+      font-weight: 600;
+      font-size: 15px;
+      position: relative;
+    }
+
+    .top-banner i {
+      color: var(--accent);
+      margin-right: 8px;
+    }
+
+    /* Modal para dispositivos móviles */
+    .mobile-menu-button {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--dark);
+      z-index: 200;
+      padding: 20px;
+      flex-direction: column;
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .mobile-menu-close {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .mobile-menu-items {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .mobile-menu-items a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: var(--dark-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mobile-menu-items a i {
+      color: var(--primary);
+      font-size: 20px;
+    }
+
+    /* Responsividad */
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+      }
+      
+      .mobile-menu-button {
+        display: block;
+      }
+      
+      .page-title h1 {
+        font-size: 24px;
+      }
+      
+      .page-title p {
+        font-size: 14px;
+      }
+      
+      .channels-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .channel-header h3 {
+        font-size: 16px;
+      }
+      
+      #closeBtn {
+        padding: 8px 12px;
+        font-size: 14px;
+        top: 10px;
+        right: 10px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="top-banner">
+    <p><i class="fas fa-bullhorn"></i> Bienvenido a FUCHIVOL - ¡Disfruta de partidos en vivo sin interrupciones!</p>
+  </div>
+
   <header>
     <div class="logo">
-      <i class="fas fa-broadcast-tower"></i> FUCHIVOL
+      <i class="fas fa-futbol"></i> FUCHIVOL
     </div>
     <nav class="menu">
-      <a href="resumenes.html"><i class="fas fa-film"></i> Resumenes</a>
+      <a href="resumenes.html"><i class="fas fa-film"></i> Resúmenes</a>
+      <a href="calendario.html"><i class="fas fa-calendar-alt"></i> Calendario</a>
       <a href="index.html"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
     </nav>
+    <button class="mobile-menu-button" onclick="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
   </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <div class="logo">
+        <i class="fas fa-futbol"></i> FUCHIVOL
+      </div>
+      <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="mobile-menu-items">
+      <a href="resumenes.html"><i class="fas fa-film"></i> Resúmenes</a>
+      <a href="calendario.html"><i class="fas fa-calendar-alt"></i> Calendario</a>
+      <a href="index.html"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+    </div>
+  </div>
 
   <div class="container">
     <div class="page-title">
-      <h1>Canales Deportivos en Vivo</h1>
-      <p>Disfruta de los mejores eventos deportivos en streaming HD</p>
+      <h1><i class="fas fa-tv"></i> Partidos en Directo</h1>
+      <p>Transmisiones en HD de los mejores eventos futbolísticos</p>
     </div>
 
     <div class="channels-grid" id="canales"></div>
   </div>
 
   <div id="player">
-    <button id="closeBtn" onclick="cerrarPartido()"><i class="fas fa-times"></i> Cerrar Canal</button>
+    <button id="closeBtn" onclick="cerrarPartido()"><i class="fas fa-times"></i> Cerrar Transmisión</button>
     <iframe id="iframePlayer" allowfullscreen></iframe>
   </div>
 
   <footer>
-    <p>&copy; 2025 FUCHIVOL. Todos los derechos reservados.</p>
+    <div class="footer-content">
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+      <div class="footer-links">
+        <a href="#">Términos y Condiciones</a>
+        <a href="#">Política de Privacidad</a>
+        <a href="#">Contacto</a>
+        <a href="#">Ayuda</a>
+      </div>
+      <p>&copy; 2025 FUCHIVOL. Todos los derechos reservados.</p>
+    </div>
   </footer>
 
   <script>
     const partidosRaw = [
-      { titulo: "LaLiga: Alavés vs Valencia", hora: "19:00", enlaces: ["https://streamtp4.com/global1.php?stream=dsports2", "https://streamtp4.com/global1.php?stream=espnplus4"] },
-      { titulo: "LaLiga: Villarreal vs Leganés", hora: "19:00", enlaces: ["https://streamtp4.com/global1.php?stream=dsportsplus", "https://streamtp4.com/global1.php?stream=espnplus10"] },
-      { titulo: "Copa Italiana: Milan vs Bologna", hora: "20:00", enlaces: ["https://streamtp4.com/global1.php?stream=dsports", "https://streamtp4.com/global1.php?stream=winplus"] },
-      { titulo: "Premier League: Aberdeen vs Celtic", hora: "21:00", enlaces: ["https://streamtp4.com/global1.php?stream=sportv_3pt", "https://streamtp4.com/global1.php?stream=fox2ar"] },
-      { titulo: "LaLiga: Real Madrid vs Mallorca", hora: "21:30", enlaces: ["https://streamtp4.com/global1.php?stream=espn", "https://streamtp4.com/global1.php?stream=espnplus5"] }
+      { 
+        titulo: "LaLiga: Alavés vs Valencia", 
+        hora: "19:00", 
+        competicion: "LaLiga", 
+        fecha: "15/05/2025",
+        enlaces: ["https://streamtp4.com/global1.php?stream=dsports2", "https://streamtp4.com/global1.php?stream=espnplus4"] 
+      },
+      { 
+        titulo: "LaLiga: Villarreal vs Leganés", 
+        hora: "19:00", 
+        competicion: "LaLiga",
+        fecha: "15/05/2025",
+        enlaces: ["https://streamtp4.com/global1.php?stream=dsportsplus", "https://streamtp4.com/global1.php?stream=espnplus10"] 
+      },
+      { 
+        titulo: "Copa Italiana: Milan vs Bologna", 
+        hora: "20:00", 
+        competicion: "Copa Italiana",
+        fecha: "15/05/2025",
+        enlaces: ["https://streamtp4.com/global1.php?stream=dsports", "https://streamtp4.com/global1.php?stream=winplus"] 
+      },
+      { 
+        titulo: "Premier League: Aberdeen vs Celtic", 
+        hora: "21:00", 
+        competicion: "Premier League",
+        fecha: "15/05/2025",
+        enlaces: ["https://streamtp4.com/global1.php?stream=sportv_3pt", "https://streamtp4.com/global1.php?stream=fox2ar"] 
+      },
+      { 
+        titulo: "LaLiga: Real Madrid vs Mallorca", 
+        hora: "21:30", 
+        competicion: "LaLiga",
+        fecha: "15/05/2025",
+        enlaces: ["https://streamtp4.com/global1.php?stream=espn", "https://streamtp4.com/global1.php?stream=espnplus5"] 
+      }
     ];
 
     const contenedor = document.getElementById('canales');
+    
     partidosRaw.forEach(p => {
       const div = document.createElement('div');
       div.className = 'channel';
+      
+      // Extraer equipos del título
+      const titulo = p.titulo;
+      let equipos = titulo.split(':')[1].trim();
+      
+      // Extraer competición
+      const competicion = p.competicion;
+      
       let botones = '';
       p.enlaces.forEach((url, i) => {
-        botones += `<button class="btn" onclick="verCanal('${url}')">Canal ${i + 1}</button>`;
+        botones += `<button class="btn" onclick="verCanal('${url}')"><i class="fas fa-play"></i> Canal ${i + 1}</button>`;
       });
+      
       div.innerHTML = `
         <div class="channel-header">
-          <h3><i class="fas fa-play-circle"></i> ${p.titulo}</h3>
+          <h3><i class="fas fa-futbol"></i> ${equipos}</h3>
+          <div class="stream-badge"><i class="fas fa-circle"></i> EN VIVO</div>
         </div>
         <div class="channel-content">
-          <p><strong>Hora:</strong> ${p.hora}</p>
-          ${botones}
+          <div class="channel-info">
+            <div><i class="fas fa-trophy"></i> ${competicion}</div>
+            <div><i class="far fa-clock"></i> ${p.hora}</div>
+            <div><i class="far fa-calendar-alt"></i> ${p.fecha}</div>
+          </div>
+          <div class="btn-container">
+            ${botones}
+          </div>
         </div>
       `;
       contenedor.appendChild(div);
@@ -263,7 +645,40 @@
       const player = document.getElementById('player');
       iframe.src = '';
       player.style.display = 'none';
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      else if (document.msExitFullscreen) document.msExitFullscreen();
     }
+    
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (mobileMenu.style.display === 'flex') {
+        mobileMenu.style.display = 'none';
+      } else {
+        mobileMenu.style.display = 'flex';
+      }
+    }
+    
+    // Cerrar menú al hacer clic en un enlace
+    document.querySelectorAll('.mobile-menu-items a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileMenu').style.display = 'none';
+      });
+    });
+    
+    // Detectar orientación en móviles para optimizar visualización
+    window.addEventListener('resize', function() {
+      if (window.innerWidth <= 768) {
+        const player = document.getElementById('player');
+        if (player.style.display === 'block') {
+          if (window.screen.orientation && typeof window.screen.orientation.lock === 'function') {
+            window.screen.orientation.lock('landscape').catch(function() {
+              // Silenciar error si el navegador no soporta bloqueo de orientación
+            });
+          }
+        }
+      }
+    });
   </script>
 </body>
 </html>
